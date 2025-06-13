@@ -3,6 +3,7 @@ import math
 from pathlib import Path
 
 import pymupdf
+from pathvalidate.argparse import sanitize_filepath_arg
 from reportlab.graphics import renderPDF
 from svglib.svglib import svg2rlg
 
@@ -10,10 +11,18 @@ from svglib.svglib import svg2rlg
 def make_cmd_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i', '--input-dir', required=True, help='Path to a directory with SVG files.'
+        '-i',
+        '--input-dir',
+        required=True,
+        type=sanitize_filepath_arg,
+        help='Path to a directory with SVG files.',
     )
     parser.add_argument(
-        '-o', '--output-dir', required=True, help='Output path for the PNG files.'
+        '-o',
+        '--output-dir',
+        required=True,
+        type=sanitize_filepath_arg,
+        help='Output path for the PNG files.',
     )
     parser.add_argument(
         '-s', '--image-size', type=int, default=64, help='Image size for the PNG files.'
